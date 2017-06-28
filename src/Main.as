@@ -2,12 +2,15 @@ import flash.display.MovieClip;
 import flash.events.Event;
 import flash.ui.Mouse;
 import utils.loader.XMLLoader;
+import controller.MainController;
 
 public static var DEBUG_MODE:int; //0:release 1:debug
 
 private const SETUP_XML_URL:String = "setup.xml";
 
-private var xmlLoader:XMLLoader;
+private var _xmlLoader:XMLLoader;
+private var _setupXml:XML;
+private var _mainController:MainController;
 
 private function onCreationComplete():void
 {
@@ -30,13 +33,14 @@ private function onCreationComplete():void
 private function loadSetting():void
 {
 	//xml読み込み
-	xmlLoader = new XMLLoader(SETUP_XML_URL);
-	xmlLoader.addEventListener(XMLLoader.LOAD_COMPLETE, loadedXML);
+	_xmlLoader = new XMLLoader(SETUP_XML_URL);
+	_xmlLoader.addEventListener(XMLLoader.LOAD_COMPLETE, loadedXML);
 }
 
 private function loadedXML(event:Event):void
 {
-	DEBUG_MODE = xmlLoader.Debug();
+	_setupXml = _xmlLoader.getXml();
+	DEBUG_MODE = _xmlLoader.child("debug")[0];
 	
 	startContents();
 }
@@ -58,6 +62,7 @@ private function resizeHandler(event:Event):void
 private function startContents():void
 {
 	// start
+	_mainController = new MainController(mainComponent);
 }
 
 private function keyDown(e:KeyboardEvent):void

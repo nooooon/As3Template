@@ -9,8 +9,7 @@ package utils.loader
 	{
 		public static const LOAD_COMPLETE:String = "xmlLoadComplete";
 		
-		private var setupXML:XML;
-		private var debug:int;
+		private var _xml:XML;
 		
 		public function XMLLoader(path:String)
 		{
@@ -21,15 +20,14 @@ package utils.loader
 		
 		private function xmlCompleteHandler(event:Event):void 
 		{
-			setupXML = XML(event.target.data);
-			debug = setupXML.child("debug")[0];
+			_xml = XML(event.target.data);
 			
 			dispatchEvent(new Event(LOAD_COMPLETE));	
 		}
 		
-		public function Debug():int
+		public function getXml():XML
 		{
-			return debug;
+			return _xml
 		}
 	}
 }
